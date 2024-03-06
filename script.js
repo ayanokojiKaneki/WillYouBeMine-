@@ -4,6 +4,7 @@ let yesResponseElement = document.getElementById("yes-display")
 let proposalImgElement = document.getElementById("proposalImg")
 let acceptedImgElement = document.getElementById("acceptedImg")
 let titleElement = document.getElementById("title")
+let rejectedResponseElement = document.getElementById("rejected")
 
 let alreadyVisited = document.getElementById("already-visited") 
 let newVisted = document.getElementById("new-visit")
@@ -12,9 +13,10 @@ let phrases = ["Are you sure ?", "Really sure", "Are you positive", "pookie plea
 
 let sizeIncrement=40;
 let sizeDecrement=40;
+let noOfTimeAsked=0; 
+let userResponse="false"; 
 
-noBtnElement.addEventListener("click",()=>{
-
+function noResponseHandler(){
     sizeIncrement+=20;
     sizeDecrement=sizeDecrement<10?10:sizeDecrement-4;
 
@@ -27,7 +29,19 @@ noBtnElement.addEventListener("click",()=>{
     noBtnElement.style.fontSize=noBtnSizeDecrement; 
 
     noBtnElement.innerText = phrases[phraseIndex];
+}
 
+noBtnElement.addEventListener("click",()=>{
+
+    if(noOfTimeAsked>9){
+        newVisted.style.display="none";
+        rejectedResponseElement.style.display="flex"; 
+        localStorage.setItem("userResponse","false");
+    }
+    else{
+        noResponseHandler(); 
+        noOfTimeAsked+=1; 
+    }
 
 })
 
@@ -39,15 +53,24 @@ yesBtnElement.addEventListener("click",()=>{
     acceptedImgElement.style.display="flex";
     console.log(titleElement.innerText)
     titleElement.innerText=""
-    localStorage.setItem("alreadyDone","true");
+    localStorage.setItem("userResponse","true");
 })
 
 
 window.addEventListener("load",()=>{
-    let alreadyDone = localStorage.alreadyDone; 
-    if(alreadyDone==="true"){
+    let userResponse = localStorage?.userResponse; 
+    if(userResponse==="true"){
         alreadyVisited.style.display="flex"; 
         newVisted.style.display="none";
+        rejectedResponseElement.style.display="none"; 
+    }
+    else if (userResponse==="false"){
+        alreadyVisited.style.display="none"; 
+        newVisted.style.display="flex";
+        rejectedResponseElement.style.display="none";  
+        sizeDecrement=40;
+        sizeIncrement=40;
+        noOfTimeAsked=0; 
     }
     
 })

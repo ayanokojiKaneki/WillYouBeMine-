@@ -7,11 +7,20 @@
     font-weight: bolder;
 }
 
+body{
+    background-image: url("cute-bg.avif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
 @media screen and (max-width: 400px) {
     body {
       overflow: hidden;
     }
   }
+
 
 .content{
     height: 100%;
@@ -71,5 +80,9 @@ img{
 }
 
 #already-visited{
+    display: none;
+}
+
+#rejected{
     display: none;
 }
